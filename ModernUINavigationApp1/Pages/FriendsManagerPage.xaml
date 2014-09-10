@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="ModernUINavigationApp1.Pages.FriendsManagerPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d" Height="272.4" Width="339.2">
+    <Control.Resources>
+        <DataTemplate x:Key="MetroListBoxItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="75"/>
+                </Grid.ColumnDefinitions>
+                <Path Data="{Binding Image}" Stretch="Uniform" Width="16" Height="16" 
+                    Fill="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor}, Path=Foreground}" />
+                <StackPanel Grid.Column="1" Margin="2">
+                    <TextBlock Text="{Binding Path=Title, FallbackValue=Title}" FontFamily="Segoe UI Light" FontSize="14" Name="FriendItemTextBox" Foreground="White" FontWeight="Bold" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <Style x:Key="MetroListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Padding" Value="4,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                    <Condition Property="IsSelected" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{x:Null}"/>
+                                <Setter Property="Foreground" Value="YellowGreen" />
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsSelected" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{x:Null}"/>
+                                <Setter Property="BorderBrush" TargetName="Bd" Value="{x:Null}"/>
+                                <Setter Property="Foreground" Value="White" />
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{x:Null}"/>
+                                <Setter Property="Foreground" Value="Green"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Control.Resources>
+    <Grid Style="{StaticResource ContentRoot}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Margin="0,0,0,0.4"/>
+        <TextBox HorizontalAlignment="Left" Height="22" Margin="-14,-22,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="180" Name="userNameBox" KeyDown="userNameBox_KeyDown"/>
+        <Button Content="Search" HorizontalAlignment="Left" Height="22" Margin="166,-22,0,0" VerticalAlignment="Top" Width="97" BorderThickness="1,0" Click="Button_Click"/>
+        <ListBox HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="130"
+         x:Name="FriendMetroView" Background="{x:Null}" BorderBrush="{x:Null}" 
+         ItemTemplate="{DynamicResource MetroListBoxItemTemplate}" 
+         ItemContainerStyle="{DynamicResource MetroListBoxItemStyle}"
+         ItemsSource="{Binding FriendsListCollection}" Margin="-14,39,0,-11" FontWeight="Bold" FontSize="14" MouseLeftButtonDown="FriendMetroView_MouseLeftButtonDown" SelectionChanged="FriendMetroView_SelectionChanged_1"/>
+        <Button Content="Add to Friends" HorizontalAlignment="Left" Height="32" Margin="127,179,0,0" VerticalAlignment="Top" Width="124" Cursor="Hand" Name="addFriendBtn" Click="addFriendBtn_Click">
+        </Button>
+        <Label Content="" HorizontalAlignment="Left" Height="37" Margin="-14,11,0,0" VerticalAlignment="Top" Width="180" Name="searchResultLabel" FontSize="14"/>
+        <Label Content="" HorizontalAlignment="Left" Height="44" Margin="-14,77,0,0" VerticalAlignment="Top" Width="321" FontSize="20" Name="searchNoResultLabel" HorizontalContentAlignment="Left"/>
+        <Image  HorizontalAlignment="Left" Height="127" Margin="125,16,0,0" VerticalAlignment="Top" Width="130" Name="userPic" IsHitTestVisible="True" Cursor="Hand" />
+
+        <Label Content="" HorizontalContentAlignment="Center"  HorizontalAlignment="Left" Height="22" Margin="262,279,0,0" VerticalAlignment="Top" Width="124" Foreground="#FFAC0202" FontSize="14" FontStyle="Italic" Name="errorMsgLabel"/>
+        <Label Content="" HorizontalContentAlignment="Center"  HorizontalAlignment="Left" Height="22" Margin="262,280,0,0" VerticalAlignment="Top" Width="124" Foreground="#FF02AC1F" FontSize="14" FontStyle="Italic" x:Name="okMsgLabel"/>
+    </Grid>
+</UserControl>

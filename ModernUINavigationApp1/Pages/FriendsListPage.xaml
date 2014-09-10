@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="ModernUINavigationApp1.FriendsListPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="600">
+    <Grid Style="{StaticResource ContentRoot}">
+        <mui:ModernTab Layout="List" Margin="0,0,0,0.4">
+            <mui:ModernTab.Links>
+                <mui:Link DisplayName="Find friends" Source="/Pages/FriendsManagerPage.xaml" />
+                <mui:Link DisplayName="Friend Requests"  Source="/Pages/FriendRequests.xaml"/>
+            </mui:ModernTab.Links>
+        </mui:ModernTab>
+    </Grid>
+</UserControl>
