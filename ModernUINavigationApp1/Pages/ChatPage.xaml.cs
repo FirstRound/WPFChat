@@ -22,14 +22,14 @@ namespace ModernUINavigationApp1.Pages
     /// <summary>
     /// Interaction logic for BasicPage1.xaml
     /// </summary>
-    public partial class BasicPage1 : UserControl
+    public partial class ChatPage : UserControl
     {
         private List<Message> _messages = new List<Message>();
         private List<User> _friends = new List<User>();
         private ActionController _chat = new ActionController();
         FriendsViewList friends_list_view = new FriendsViewList();
         Admin _admin;
-        public BasicPage1()
+        public ChatPage()
         {
             _admin = MainWindow.admin;
             InitializeComponent();
@@ -42,6 +42,7 @@ namespace ModernUINavigationApp1.Pages
             messageUpdater.IsBackground = true;
             messageUpdater.Start();
             Thread friendsUpdater = new Thread(_updateFriendsSource);
+            friendsUpdater.IsBackground = true;
             friendsUpdater.Start();
             //AppearanceManager.Current.AccentColor = System.Windows.Media.Colors.Green;
         }

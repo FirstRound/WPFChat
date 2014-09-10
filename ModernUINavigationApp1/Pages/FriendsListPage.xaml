@@ -9,8 +9,8 @@
     <Grid Style="{StaticResource ContentRoot}">
         <mui:ModernTab Layout="List" Margin="0,0,0,0.4">
             <mui:ModernTab.Links>
-                <mui:Link DisplayName="Find friends" Source="/Pages/FriendsManagerPage.xaml" />
-                <mui:Link DisplayName="Friend Requests"  Source="/Pages/FriendRequests.xaml"/>
+                <mui:Link DisplayName="Find friends" Source="/Pages/FriendsSearchPage.xaml" />
+                <mui:Link DisplayName="Friend Requests" Source="/Pages/FriendRequests.xaml"/>
             </mui:ModernTab.Links>
         </mui:ModernTab>
     </Grid>

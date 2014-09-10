@@ -18,11 +18,11 @@ namespace ModernUINavigationApp1.Pages
     /// <summary>
     /// Interaction logic for FriendsManagerPage.xaml
     /// </summary>
-    public partial class FriendsManagerPage : UserControl
+    public partial class FriendsSearchPage : UserControl
     {
         FriendsViewList friends_list_view = new FriendsViewList();
         ActionController _chat = new ActionController(MainWindow.admin);
-        public FriendsManagerPage()
+        public FriendsSearchPage()
         {
             InitializeComponent();
             FriendMetroView.DataContext = friends_list_view;
