@@ -82,7 +82,8 @@ namespace ModernUINavigationApp1
 
         public List<Message> getMessages()
         {
-            if (_current_friend != null && _messages.Count != (_inbox[_current_friend.Id].Count + _outbox[_current_friend.Id].Count))
+            //if (_current_friend != null && _messages.Count != (_inbox[_current_friend.Id].Count + _outbox[_current_friend.Id].Count))
+            if (_current_friend != null)
             {
                 _messages.Clear();
                 _messages.AddRange(_inbox[_current_friend.Id]);
@@ -106,7 +107,7 @@ namespace ModernUINavigationApp1
         public void loadMessageHistory()
         {
             _initMessageContainers();
-            updateNewMessages();
+            updateNewMessages(false);
         }
 
         public void setCurrentFriend(User friend)
@@ -114,9 +115,9 @@ namespace ModernUINavigationApp1
             _current_friend = friend;
         }
 
-        public bool updateNewMessages()
+        public bool updateNewMessages(bool state=true)
         {
-            return _distributeMessages(_request.getNewMessages());
+            return _distributeMessages(_request.getNewMessages(state));
         }
 
         public List<User> findUserByName(String name)

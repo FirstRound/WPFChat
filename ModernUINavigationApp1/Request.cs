@@ -110,8 +110,10 @@ namespace ModernUINavigationApp1
                 return false;
         }
 
-        public List<Message> getNewMessages()
+        public List<Message> getNewMessages(bool state=true)
         {
+            if (state == false)
+                _admin.LastMessageTime = 0;
             String data = "last_message_time=" + _admin.LastMessageTime + "&admin_id=" + _admin.Id;
             String action = "&action=get_new_messages";
             String token = "&token=" + _admin.Token;

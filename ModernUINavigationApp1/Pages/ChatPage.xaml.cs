@@ -44,6 +44,9 @@ namespace ModernUINavigationApp1.Pages
             Thread friendsUpdater = new Thread(_updateFriendsSource);
             friendsUpdater.IsBackground = true;
             friendsUpdater.Start();
+            Thread friendsIncomeUpdater = new Thread(_updateIncomeFriendsSource);
+            friendsIncomeUpdater.IsBackground = true;
+            friendsIncomeUpdater.Start();
             //AppearanceManager.Current.AccentColor = System.Windows.Media.Colors.Green;
         }
 
@@ -125,6 +128,9 @@ namespace ModernUINavigationApp1.Pages
             _friends.Clear();
             _friends = _chat.getFriends();
             friends_list_view.AddRange(_friends);
+            _chat.loadMessageHistory();
+            _setListBoxSource();
+            _updateMessageListBox();
         }
 
         private void _updateFriendsSource()
@@ -134,23 +140,34 @@ namespace ModernUINavigationApp1.Pages
                 Thread.Sleep(2000);
                 if (MainWindow.haveNewFriend)
                 {
+                    MainWindow.haveNewFriend = false;
                     Action<ListBox> action = (_friends) => updateFriendsSource();
-                    this._friends.Clear();
-                    List<User> list = _chat.getFriends();
-                    if (list != null)
+                    if (this.FriendMetroView.Dispatcher.CheckAccess())
                     {
-                        _friends = list;
-                        int a = 3;
-                        if (this.FriendMetroView.Dispatcher.CheckAccess())
-                        {
-                            action(FriendMetroView);
-                        }
-                        else
-                        {
-                            this.FriendMetroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, action, FriendMetroView);
-                        }
+                        action(FriendMetroView);
+                    }
+                    else
+                    {
+                        this.FriendMetroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, action, FriendMetroView);
                     }
                 }
+            }
+        }
+
+        private void _updateIncomeFriendsSource()
+        {
+            while (true)
+            {
+                Thread.Sleep(50000);
+                    Action<ListBox> action = (_friends) => updateFriendsSource();
+                    if (this.FriendMetroView.Dispatcher.CheckAccess())
+                    {
+                        action(FriendMetroView);
+                    }
+                    else
+                    {
+                        this.FriendMetroView.Dispatcher.BeginInvoke(DispatcherPriority.Normal, action, FriendMetroView);
+                    }
             }
         }
         private void _sendMessage()
@@ -189,12 +206,15 @@ namespace ModernUINavigationApp1.Pages
 
         private void FriendMetroView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _chat.setCurrentFriend(_friends[FriendMetroView.SelectedIndex]);
-            List<Message> list = _chat.getMessages();
-            if (list != null)
+            if (FriendMetroView.SelectedIndex > -1)
             {
-                _messages = list;
-                _updateMessageListBox();
+                _chat.setCurrentFriend(_friends[FriendMetroView.SelectedIndex]);
+                List<Message> list = _chat.getMessages();
+                if (list != null)
+                {
+                    _messages = list;
+                    _updateMessageListBox();
+                }
             }
         }
 
