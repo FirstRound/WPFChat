@@ -33,6 +33,7 @@ namespace ModernUINavigationApp1
 
         private void ModernWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            
             System.Threading.SynchronizationContext.Current.Post(delegate { Application.Current.Shutdown(); }, null);
         }
 
