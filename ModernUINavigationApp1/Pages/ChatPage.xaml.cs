@@ -125,12 +125,15 @@ namespace ModernUINavigationApp1.Pages
         // BEGIN PRIVATE METHODS
         public void updateFriendsSource()
         {
+            int index = FriendMetroView.SelectedIndex;
             _friends.Clear();
             _friends = _chat.getFriends();
             friends_list_view.AddRange(_friends);
             _chat.loadMessageHistory();
             _setListBoxSource();
             _updateMessageListBox();
+            if (index > -1)
+                FriendMetroView.SelectedIndex = index;
         }
 
         private void _updateFriendsSource()
